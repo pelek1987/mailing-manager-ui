@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '@fontsource/roboto';
-import { CssBaseline } from '@mui/material';
+
+import { AppProviders } from 'components/AppProviders/AppProviders';
 
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
@@ -11,8 +12,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <CssBaseline />
-    <App />
+    <AppProviders>
+      <App />
+    </AppProviders>
   </React.StrictMode>,
 );
 
