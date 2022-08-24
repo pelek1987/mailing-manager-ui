@@ -1,17 +1,17 @@
-import { SxProps, Theme } from '@mui/material';
+import { Styles } from 'theme/theme';
 
-export const layout: SxProps<Theme> = {
+export const layout: Styles = {
   minHeight: '100vh',
   display: 'grid',
   placeItems: 'center',
 };
 
-export const container: SxProps<Theme> = {
+export const container: Styles = {
   paddingX: 10,
   paddingY: 5,
 };
 
-export const buttonsContainer: SxProps<Theme> = {
+export const buttonsContainer: Styles = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
