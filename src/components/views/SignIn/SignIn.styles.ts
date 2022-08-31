@@ -4,12 +4,13 @@ export const container: Styles = {
   paddingX: 10,
   paddingY: 5,
   borderRadius: 4,
+  minWidth: '30rem',
 };
 
-export const buttonsContainer: Styles = {
+export const form: Styles = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-  rowGap: 2,
-  marginTop: 7,
+  alignItems: 'flex-start',
+  rowGap: 1,
+  marginTop: 2,
 };
