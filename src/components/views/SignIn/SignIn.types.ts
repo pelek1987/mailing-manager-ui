@@ -11,7 +11,7 @@ setLocale({
 });
 
 export const signInPayloadSchema = object({
-  username: string().email().required(),
+  email: string().email().required(),
   password: string().min(6).required(),
 }).required();
 

@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link } from 'react-router-dom';
 
+import axios from 'api/axios';
 import { AppRoute } from 'AppRoute';
 
 import { SignInFormPayload, signInPayloadSchema } from './SignIn.types';
@@ -20,6 +21,8 @@ import * as styles from './SignIn.styles';
 
 export const SignIn = () => {
   const [isRememberMeChecked, setIsRememberMeChecked] = useState<boolean>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
 
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setIsRememberMeChecked(e.target.checked);
@@ -33,10 +36,17 @@ export const SignIn = () => {
     resolver: yupResolver(signInPayloadSchema),
   });
 
-  const onSubmit = useCallback(
-    (data: SignInFormPayload) => console.log(data),
-    [],
-  );
+  const onSubmit = useCallback(async (payload: SignInFormPayload) => {
+    try {
+      setIsLoading(true);
+      setErrorMessage(undefined);
+      await axios.post('/app/auth/login', payload);
+    } catch (err) {
+      setErrorMessage('Something went wrong. Please try again');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   return (
     <Paper sx={styles.container}>
@@ -45,11 +55,11 @@ export const SignIn = () => {
       </Typography>
       <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={styles.form}>
         <TextField
-          {...register('username')}
+          {...register('email')}
           variant="standard"
           label="E-mail *"
-          error={Boolean(errors.username)}
-          helperText={errors.username?.message}
+          error={Boolean(errors.email)}
+          helperText={errors.email?.message}
           fullWidth
         />
         <TextField
@@ -69,7 +79,8 @@ export const SignIn = () => {
             label="Remember me"
           />
         </FormGroup>
-        <Button variant="contained" type="submit">
+        {errorMessage && <Typography color="error">{errorMessage}</Typography>}
+        <Button variant="contained" type="submit" disabled={isLoading}>
           SIGN IN
         </Button>
         <Typography>
