@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import {
   Box,
   Button,
@@ -13,17 +13,17 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link } from 'react-router-dom';
 
-import axios from 'api/axios';
 import { AppRoute } from 'AppRoute';
+import { useMutation } from 'api/useMutation/useMutation';
 
-import { SignInFormPayload, signInPayloadSchema } from './SignIn.types';
 import * as styles from './SignIn.styles';
+import { SignInFormPayload, signInPayloadSchema } from './SignIn.types';
 
 export const SignIn = () => {
   const [isRememberMeChecked, setIsRememberMeChecked] = useState<boolean>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string>();
 
+  const { onMutate, isLoading, errorMessage } =
+    useMutation<SignInFormPayload>();
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setIsRememberMeChecked(e.target.checked);
   };
@@ -36,24 +36,12 @@ export const SignIn = () => {
     resolver: yupResolver(signInPayloadSchema),
   });
 
-  const onSubmit = useCallback(async (payload: SignInFormPayload) => {
-    try {
-      setIsLoading(true);
-      setErrorMessage(undefined);
-      await axios.post('/app/auth/login', payload);
-    } catch (err) {
-      setErrorMessage('Something went wrong. Please try again');
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
   return (
     <Paper sx={styles.container}>
       <Typography component="h1" variant="h4">
         Sign In
       </Typography>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={styles.form}>
+      <Box component="form" onSubmit={handleSubmit(onMutate)} sx={styles.form}>
         <TextField
           {...register('email')}
           variant="standard"
