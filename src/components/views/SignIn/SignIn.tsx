@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link } from 'react-router-dom';
 
+import axios from 'api/axios';
 import { AppRoute } from 'AppRoute';
 import { useMutation } from 'api/useMutation/useMutation';
 
@@ -22,7 +23,10 @@ import { SignInFormPayload, signInPayloadSchema } from './SignIn.types';
 export const SignIn = () => {
   const [isRememberMeChecked, setIsRememberMeChecked] = useState<boolean>();
 
-  const { onMutate, mutationState } = useMutation<SignInFormPayload>();
+  const { onMutate, mutationState } = useMutation({
+    mutateFn: (payload: SignInFormPayload) =>
+      axios.post('/app/auth/login', payload),
+  });
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setIsRememberMeChecked(e.target.checked);
   };

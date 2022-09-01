@@ -19,3 +19,7 @@ type FailAction = { type: ActionType.FAIL; payload: string };
 type SuccessAction = { type: ActionType.SUCCESS };
 
 export type MutationAction = InitAction | FailAction | SuccessAction;
+
+export interface UseMutationProps<T> {
+  mutateFn: (arg: T) => Promise<void>;
+}

@@ -1,4 +1,4 @@
-import { ActionType, MutationAction, MutationState } from './mutation.types';
+import { ActionType, MutationAction, MutationState } from './useMutation.types';
 
 export const defaultMutationState: MutationState = {
   isLoading: false,
