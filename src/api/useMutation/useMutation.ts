@@ -1,26 +1,34 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useReducer } from 'react';
 
 import axios from '../axios';
 
+import { ActionType } from './mutation.types';
+import { defaultMutationState, mutationReducer } from './mutationReducer';
+
 export const useMutation = <T>() => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string>();
+  const [mutationState, dispatchMutationAction] = useReducer(
+    mutationReducer,
+    defaultMutationState,
+  );
 
   const onMutate = useCallback(async (payload: T) => {
     try {
-      setIsLoading(true);
-      setErrorMessage(undefined);
+      dispatchMutationAction({ type: ActionType.INIT });
       await axios.post('/app/auth/login', payload);
     } catch (err) {
-      setErrorMessage('Something went wrong. Please try again');
+      dispatchMutationAction({
+        type: ActionType.FAIL,
+        payload: 'Something went wrong. Please try again',
+      });
     } finally {
-      setIsLoading(false);
+      dispatchMutationAction({
+        type: ActionType.SUCCESS,
+      });
     }
   }, []);
 
   return {
     onMutate,
-    isLoading,
-    errorMessage,
+    mutationState,
   };
 };

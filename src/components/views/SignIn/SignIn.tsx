@@ -22,8 +22,7 @@ import { SignInFormPayload, signInPayloadSchema } from './SignIn.types';
 export const SignIn = () => {
   const [isRememberMeChecked, setIsRememberMeChecked] = useState<boolean>();
 
-  const { onMutate, isLoading, errorMessage } =
-    useMutation<SignInFormPayload>();
+  const { onMutate, mutationState } = useMutation<SignInFormPayload>();
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setIsRememberMeChecked(e.target.checked);
   };
@@ -67,8 +66,14 @@ export const SignIn = () => {
             label="Remember me"
           />
         </FormGroup>
-        {errorMessage && <Typography color="error">{errorMessage}</Typography>}
-        <Button variant="contained" type="submit" disabled={isLoading}>
+        {mutationState.errorMessage && (
+          <Typography color="error">{mutationState.errorMessage}</Typography>
+        )}
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={mutationState.isLoading}
+        >
           SIGN IN
         </Button>
         <Typography>
