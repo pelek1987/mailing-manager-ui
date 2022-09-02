@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import { AppRoute } from 'AppRoute';
 import { Home } from 'components/views/Home/Home';
@@ -8,12 +8,14 @@ import { CenteredLayout } from 'components/CenteredLayout/CenteredLayout';
 
 export const App = () => {
   return (
-    <Routes>
-      <Route element={<CenteredLayout />}>
-        <Route path={AppRoute.home} element={<Home />} />
-        <Route path={AppRoute.signIn} element={<SignIn />} />
-        <Route path={AppRoute.signUp} element={<SignUp />} />
-      </Route>
-    </Routes>
+    <Router>
+      <Routes>
+        <Route element={<CenteredLayout />}>
+          <Route path={AppRoute.home} element={<Home />} />
+          <Route path={AppRoute.signIn} element={<SignIn />} />
+          <Route path={AppRoute.signUp} element={<SignUp />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 };

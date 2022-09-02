@@ -5,7 +5,7 @@ import { isAxiosError } from 'api/axios';
 import { ActionType, UseMutationProps } from './useMutation.types';
 import { defaultMutationState, mutationReducer } from './mutationReducer';
 
-export const useMutation = <T extends {}>({
+export const useMutation = <T extends unknown>({
   mutateFn,
 }: UseMutationProps<T>) => {
   const [mutationState, dispatchMutationAction] = useReducer(
