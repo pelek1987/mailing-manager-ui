@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import {
   Box,
   Button,
@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import axios from 'api/axios';
 import { AppRoute } from 'AppRoute';
@@ -22,10 +22,15 @@ import { SignInFormPayload, signInPayloadSchema } from './SignIn.types';
 
 export const SignIn = () => {
   const [isRememberMeChecked, setIsRememberMeChecked] = useState<boolean>();
+  const navigate = useNavigate();
+  const onSuccess = useCallback(() => {
+    navigate(AppRoute.home);
+  }, [navigate]);
 
   const { onMutate, mutationState } = useMutation({
     mutateFn: (payload: SignInFormPayload) =>
       axios.post('/app/auth/login', payload),
+    onSuccess,
   });
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setIsRememberMeChecked(e.target.checked);

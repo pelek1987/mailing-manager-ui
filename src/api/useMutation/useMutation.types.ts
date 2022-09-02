@@ -22,4 +22,5 @@ export type MutationAction = InitAction | FailAction | SuccessAction;
 
 export interface UseMutationProps<T> {
   mutateFn: (arg: T) => Promise<void>;
+  onSuccess?: () => void;
 }

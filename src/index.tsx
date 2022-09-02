@@ -3,9 +3,15 @@ import ReactDOM from 'react-dom/client';
 import '@fontsource/roboto';
 
 import { AppProviders } from 'components/AppProviders/AppProviders';
+import { worker } from 'tests/mocks/browser';
 
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
+
+// Start the mocking conditionally.
+if (process.env.NODE_ENV === 'development') {
+  worker.start();
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

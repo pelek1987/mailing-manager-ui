@@ -7,6 +7,7 @@ import { defaultMutationState, mutationReducer } from './mutationReducer';
 
 export const useMutation = <T extends unknown>({
   mutateFn,
+  onSuccess,
 }: UseMutationProps<T>) => {
   const [mutationState, dispatchMutationAction] = useReducer(
     mutationReducer,
@@ -18,6 +19,9 @@ export const useMutation = <T extends unknown>({
       try {
         dispatchMutationAction({ type: ActionType.INIT });
         await mutateFn(payload);
+        if (onSuccess) {
+          onSuccess();
+        }
       } catch (err) {
         if (isAxiosError(err) && err.response?.status === 400) {
           dispatchMutationAction({
