@@ -6,6 +6,6 @@ export interface OnTokenSaveArgs {
 export type TokenContextValue =
   | undefined
   | {
-      accessToken: string | undefined;
+      accessToken: string | null;
       onTokenSave: (args: OnTokenSaveArgs) => void;
     };
