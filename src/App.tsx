@@ -5,6 +5,7 @@ import { Home } from 'components/views/Home/Home';
 import { SignIn } from 'components/views/SignIn/SignIn';
 import { SignUp } from 'components/views/SignUp/SignUp';
 import { CenteredLayout } from 'components/CenteredLayout/CenteredLayout';
+import { Dashboard } from 'components/views/Dashboard/Dashboard';
 
 export const App = () => {
   return (
@@ -15,6 +16,7 @@ export const App = () => {
           <Route path={AppRoute.signIn} element={<SignIn />} />
           <Route path={AppRoute.signUp} element={<SignUp />} />
         </Route>
+        <Route path={AppRoute.dashboard} element={<Dashboard />} />
       </Routes>
     </Router>
   );

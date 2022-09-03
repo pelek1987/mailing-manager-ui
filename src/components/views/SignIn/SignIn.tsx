@@ -12,24 +12,36 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
 
 import axios from 'api/axios';
 import { AppRoute } from 'AppRoute';
 import { useMutation } from 'api/useMutation/useMutation';
+import { useTokenContext } from 'context/TokenContext/useTokenContext';
 
 import * as styles from './SignIn.styles';
-import { SignInFormPayload, signInPayloadSchema } from './SignIn.types';
+import {
+  SignInFormPayload,
+  signInPayloadSchema,
+  SignInResponse,
+} from './SignIn.types';
 
 export const SignIn = () => {
   const [isRememberMeChecked, setIsRememberMeChecked] = useState<boolean>();
   const navigate = useNavigate();
-  const onSuccess = useCallback(() => {
-    navigate(AppRoute.home);
-  }, [navigate]);
+  const { onTokenSave } = useTokenContext();
+
+  const onSuccess = useCallback(
+    (res: AxiosResponse<SignInResponse>) => {
+      onTokenSave(res.data.accessToken);
+      navigate(AppRoute.dashboard);
+    },
+    [navigate, onTokenSave],
+  );
 
   const { onMutate, mutationState } = useMutation({
     mutateFn: (payload: SignInFormPayload) =>
-      axios.post('/app/auth/login', payload),
+      axios.post<SignInResponse>('/app/auth/login', payload),
     onSuccess,
   });
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {

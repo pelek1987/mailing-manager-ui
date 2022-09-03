@@ -17,3 +17,11 @@ export const signInPayloadSchema = object({
 
 export interface SignInFormPayload
   extends InferType<typeof signInPayloadSchema> {}
+
+export interface SignInResponse {
+  accessToken: string;
+  user: {
+    id: number;
+    email: string;
+  };
+}

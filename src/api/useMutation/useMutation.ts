@@ -5,10 +5,10 @@ import { isAxiosError } from 'api/axios';
 import { ActionType, UseMutationProps } from './useMutation.types';
 import { defaultMutationState, mutationReducer } from './mutationReducer';
 
-export const useMutation = <T extends unknown>({
+export const useMutation = <T extends unknown, R extends unknown>({
   mutateFn,
   onSuccess,
-}: UseMutationProps<T>) => {
+}: UseMutationProps<T, R>) => {
   const [mutationState, dispatchMutationAction] = useReducer(
     mutationReducer,
     defaultMutationState,
@@ -18,9 +18,9 @@ export const useMutation = <T extends unknown>({
     async (payload: T) => {
       try {
         dispatchMutationAction({ type: ActionType.INIT });
-        await mutateFn(payload);
+        const res = await mutateFn(payload);
         if (onSuccess) {
-          onSuccess();
+          onSuccess(res);
         }
       } catch (err) {
         if (isAxiosError(err) && err.response?.status === 400) {

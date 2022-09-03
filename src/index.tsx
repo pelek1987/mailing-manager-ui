@@ -8,10 +8,10 @@ import { worker } from 'tests/mocks/browser';
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 
-// Start the mocking conditionally.
-if (process.env.NODE_ENV === 'development') {
-  worker.start();
-}
+// // Start the mocking conditionally.
+// if (process.env.NODE_ENV === 'development') {
+//   worker.start();
+// }
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

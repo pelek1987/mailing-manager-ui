@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
+import { rest } from 'msw';
 
 import { AppRoute } from 'AppRoute';
-import { rest } from 'msw';
 import { render, screen } from 'tests';
 import { server } from 'tests/mocks/server';
 
@@ -27,7 +27,7 @@ describe('SignIn', () => {
     expect(emailField).toBeInTheDocument();
     expect(passwordField).toBeInTheDocument();
   });
-  it('redirects to home on login', async () => {
+  it('redirects to dashboard on login', async () => {
     render(<SignIn />);
 
     const emailField = screen.getByLabelText(/E-mail */);
@@ -39,7 +39,7 @@ describe('SignIn', () => {
     await userEvent.click(submitButton);
 
     expect(mockNavigate).toHaveBeenCalled();
-    expect(mockNavigate).toHaveBeenCalledWith(AppRoute.home);
+    expect(mockNavigate).toHaveBeenCalledWith(AppRoute.dashboard);
   });
   it('does not redirect on error', async () => {
     server.use(

@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import axios from 'api/axios';
 import { AppRoute } from 'AppRoute';
@@ -12,9 +12,15 @@ import * as styles from './SignUp.styles';
 import { SignUpFormPayload, signUpPayloadSchema } from './SignUp.types';
 
 export const SignUp = () => {
+  const navigate = useNavigate();
+  const onSuccess = useCallback(() => {
+    navigate(AppRoute.signIn);
+  }, [navigate]);
+
   const { onMutate, mutationState } = useMutation({
     mutateFn: (payload: Omit<SignUpFormPayload, 'passwordConfirmation'>) =>
       axios.post('/app/auth/register', payload),
+    onSuccess,
   });
 
   const handleMutate = useCallback(
