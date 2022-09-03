@@ -27,16 +27,20 @@ import {
 } from './SignIn.types';
 
 export const SignIn = () => {
-  const [isRememberMeChecked, setIsRememberMeChecked] = useState<boolean>();
+  const [isRememberMeChecked, setIsRememberMeChecked] =
+    useState<boolean>(false);
   const navigate = useNavigate();
   const { onTokenSave } = useTokenContext();
 
   const onSuccess = useCallback(
     (res: AxiosResponse<SignInResponse>) => {
-      onTokenSave(res.data.accessToken);
+      onTokenSave({
+        newToken: res.data.accessToken,
+        storeTokenInStorage: isRememberMeChecked,
+      });
       navigate(AppRoute.dashboard);
     },
-    [navigate, onTokenSave],
+    [navigate, onTokenSave, isRememberMeChecked],
   );
 
   const { onMutate, mutationState } = useMutation({
