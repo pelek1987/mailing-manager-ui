@@ -9,6 +9,7 @@ export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { accessToken } = useTokenContext();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const [isError /* setIsError */] = useState(false);
 
   // const checkProfile = useCallback(async () => {
   //   try {
@@ -18,6 +19,7 @@ export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   //       },
   //     });
   //   } catch (err) {
+  //     setIsError(true);
   //     navigate(AppRoute.signIn);
   //   }
   //   setIsLoading(false);
@@ -32,7 +34,7 @@ export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     // checkProfile();
   }, [accessToken, navigate /* , checkProfile */]);
 
-  if (isLoading) {
+  if (isLoading || isError || !accessToken) {
     return null;
   }
 

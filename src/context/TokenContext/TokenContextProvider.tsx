@@ -3,7 +3,7 @@ import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { TokenContext } from './TokenContext';
 import { OnTokenSaveArgs } from './TokenContext.types';
 
-const TOKEN_STORAGE_KEY = 'ACCESS_TOKEN';
+export const TOKEN_STORAGE_KEY = 'ACCESS_TOKEN';
 
 export const TokenContextProvider = ({ children }: { children: ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string | null>(
