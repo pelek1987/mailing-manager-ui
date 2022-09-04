@@ -1,9 +1,9 @@
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, /* useCallback */ useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useTokenContext } from 'context/TokenContext/useTokenContext';
 import { AppRoute } from 'AppRoute';
-import axios from 'api/axios';
+// import axios from 'api/useAxios/axios';
 
 export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { accessToken } = useTokenContext();

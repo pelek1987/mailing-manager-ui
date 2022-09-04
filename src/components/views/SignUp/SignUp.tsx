@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
 
-import axios from 'api/axios';
 import { AppRoute } from 'AppRoute';
 import { useMutation } from 'api/useMutation/useMutation';
 
@@ -18,8 +17,9 @@ export const SignUp = () => {
   }, [navigate]);
 
   const { onMutate, mutationState } = useMutation({
-    mutateFn: (payload: Omit<SignUpFormPayload, 'passwordConfirmation'>) =>
-      axios.post('/app/auth/register', payload),
+    mutateFn:
+      (axios) => (payload: Omit<SignUpFormPayload, 'passwordConfirmation'>) =>
+        axios.post('/app/auth/register', payload),
     onSuccess,
   });
 

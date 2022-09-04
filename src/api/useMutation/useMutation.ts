@@ -1,6 +1,6 @@
 import { useCallback, useReducer } from 'react';
 
-import { isAxiosError } from 'api/axios';
+import { useAxios, isAxiosError } from 'api/useAxios/useAxios';
 
 import { ActionType, UseMutationProps } from './useMutation.types';
 import { defaultMutationState, mutationReducer } from './mutationReducer';
@@ -14,11 +14,13 @@ export const useMutation = <T extends unknown, R extends unknown>({
     defaultMutationState,
   );
 
+  const axios = useAxios();
+
   const onMutate = useCallback(
     async (payload: T) => {
       try {
         dispatchMutationAction({ type: ActionType.INIT });
-        const res = await mutateFn(payload);
+        const res = await mutateFn(axios)(payload);
         if (onSuccess) {
           onSuccess(res);
         }
@@ -40,7 +42,7 @@ export const useMutation = <T extends unknown, R extends unknown>({
         });
       }
     },
-    [mutateFn],
+    [mutateFn, onSuccess, axios],
   );
 
   return {

@@ -14,7 +14,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
 
-import axios from 'api/axios';
 import { AppRoute } from 'AppRoute';
 import { useMutation } from 'api/useMutation/useMutation';
 import { useTokenContext } from 'context/TokenContext/useTokenContext';
@@ -44,7 +43,7 @@ export const SignIn = () => {
   );
 
   const { onMutate, mutationState } = useMutation({
-    mutateFn: (payload: SignInFormPayload) =>
+    mutateFn: (axios) => (payload: SignInFormPayload) =>
       axios.post<SignInResponse>('/app/auth/login', payload),
     onSuccess,
   });
